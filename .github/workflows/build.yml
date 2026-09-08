@@ -35,9 +35,9 @@ on:
 env:
   LATEST_TAG: latest
   WEBCLIENT_SOURCE_LOCATION: ${{ github.event.inputs.WEBCLIENT_SOURCE_LOCATION || 'https://github.com/YAGE-rgb/rustdesk-api-web' }}
-  BASE_IMAGE_NAMESPACE: ${{ github.event.inputs.BASE_IMAGE_NAMESPACE || github.actor }}
-  DOCKERHUB_IMAGE_NAMESPACE: ${{ github.event.inputs.DOCKERHUB_IMAGE_NAMESPACE || github.actor }}
-  GHCR_IMAGE_NAMESPACE: ${{ github.event.inputs.GHCR_IMAGE_NAMESPACE || github.actor }}
+  BASE_IMAGE_NAMESPACE: ${{ github.event.inputs.BASE_IMAGE_NAMESPACE || 'yage-rgb' }}
+  DOCKERHUB_IMAGE_NAMESPACE: ${{ github.event.inputs.DOCKERHUB_IMAGE_NAMESPACE || 'yage-rgb' }}
+  GHCR_IMAGE_NAMESPACE: ${{ github.event.inputs.GHCR_IMAGE_NAMESPACE || 'yage-rgb' }}
   SKIP_DOCKER_HUB: ${{ github.event.inputs.SKIP_DOCKER_HUB || 'false' }}
   SKIP_GHCR: ${{ github.event.inputs.SKIP_GHCR || 'false' }}
 jobs:
