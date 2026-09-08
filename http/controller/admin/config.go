@@ -95,3 +95,49 @@ func (co *Config) AdminConfig(c *gin.Context) {
 		"hello": hello,
 	})
 }
+
+// UpdateAdminConfig 更新ADMIN服务配置
+// @Tags ADMIN
+// @Summary 更新ADMIN服务配置
+// @Description 更新标题和欢迎语
+// @Accept  json
+// @Produce  json
+// @Param title body string false "页面标题"
+// @Param hello body string false "欢迎语"
+// @Success 200 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /admin/config/admin [put]
+// @Security token
+func (co *Config) UpdateAdminConfig(c *gin.Context) {
+	var req struct {
+		Title string `json:"title"`
+		Hello string `json:"hello"`
+	}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response.Error(c, response.ParamError, "参数错误")
+		return
+	}
+
+	// 更新内存中的配置
+	if req.Title != "" {
+		global.Config.Admin.Title = req.Title
+		global.Viper.Set("admin.title", req.Title)
+	}
+	if req.Hello != "" {
+		global.Config.Admin.Hello = req.Hello
+		global.Viper.Set("admin.hello", req.Hello)
+		// 清空 hello-file，优先使用 hello 字段
+		global.Viper.Set("admin.hello-file", "")
+	}
+
+	// 写入配置文件
+	if err := global.Viper.WriteConfig(); err != nil {
+		response.Error(c, response.SystemError, "写入配置文件失败")
+		return
+	}
+
+	response.Success(c, &gin.H{
+		"title": global.Config.Admin.Title,
+		"hello": global.Config.Admin.Hello,
+	})
+}
