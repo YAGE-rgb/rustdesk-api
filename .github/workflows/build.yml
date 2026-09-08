@@ -290,7 +290,7 @@ jobs:
           tar -xzf ${{ matrix.job.goos }}-${{ matrix.job.platform }}.tar.gz -C ${{ matrix.job.platform }}
 
       - name: Build and push Docker image to Docker Hub ${{ matrix.job.platform }}
-        if: ${{ env.SKIP_DOCKER_HUB == 'false' }}  # Only run this step if SKIP_DOCKER_HUB is false
+        if: false
         uses: docker/build-push-action@v5
         with:
           context: "."
@@ -321,7 +321,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build and push Docker image to GHCR ${{ matrix.job.platform }}
-        if: ${{ env.SKIP_GHCR == 'false' }}  # Only run this step if SKIP_GHCR is false
+        if: false
         uses: docker/build-push-action@v5
         with:
           context: "."
@@ -337,11 +337,11 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build and push Docker Full S6 image to GHCR ${{ matrix.job.platform }}
-        if: ${{ env.SKIP_GHCR == 'false' }}  # Only run this step if SKIP_GHCR is false
+        if: ${{ env.SKIP_GHCR == 'false' }}
         uses: docker/build-push-action@v5
         with:
           context: "."
-          file: ./Dockerfile
+          file: ./Dockerfile_full_s6
           platforms: ${{ matrix.job.docker_platform }}
           push: true
           provenance: false
