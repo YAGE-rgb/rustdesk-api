@@ -114,7 +114,7 @@ func (co *Config) UpdateAdminConfig(c *gin.Context) {
 		Hello string `json:"hello"`
 	}
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, response.ParamError, "参数错误")
+		response.Error(c, "参数错误")
 		return
 	}
 
@@ -132,7 +132,7 @@ func (co *Config) UpdateAdminConfig(c *gin.Context) {
 
 	// 写入配置文件
 	if err := global.Viper.WriteConfig(); err != nil {
-		response.Error(c, response.SystemError, "写入配置文件失败")
+		response.Error(c, "写入配置文件失败")
 		return
 	}
 
