@@ -155,6 +155,7 @@ jobs:
 
   deb-package:
     name: debian package - ${{ matrix.job.platform }}
+    if: false
     needs: build
     runs-on: ubuntu-latest
     strategy:
