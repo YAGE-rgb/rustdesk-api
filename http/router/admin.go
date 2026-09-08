@@ -232,6 +232,7 @@ func UserTokenBind(rg *gin.RouterGroup) {
 	aR.POST("/delete", cont.Delete)
 	aR.POST("/batchDelete", cont.BatchDelete)
 }
+
 func ConfigBind(rg *gin.RouterGroup) {
 	aR := rg.Group("/config")
 	rs := &admin.Config{}
@@ -241,21 +242,9 @@ func ConfigBind(rg *gin.RouterGroup) {
 	aR.Use(middleware.BackendUserAuth())
 	aR.GET("/server", rs.ServerConfig)
 	aR.GET("/app", rs.AppConfig)
-
+	// 新增：更新 admin 配置（需要管理员权限）
+	aR.PUT("/admin", middleware.AdminPrivilege(), rs.UpdateAdminConfig)
 }
-
-/*
-func FileBind(rg *gin.RouterGroup) {
-	aR := rg.Group("/file")
-	{
-		cont := &admin.File{}
-		aR.POST("/notify", cont.Notify)
-		aR.OPTIONS("/oss_token", nil)
-		aR.OPTIONS("/upload", nil)
-		aR.GET("/oss_token", cont.OssToken)
-		aR.POST("/upload", cont.Upload)
-	}
-}*/
 
 func MyBind(rg *gin.RouterGroup) {
 	{
